@@ -5,6 +5,7 @@
   export let data
 
   $: sourceTsv = testTsvData;
+  $: tableName = 'your_table_name';
   $: insertSql = '';
   $: copied = false;
   $: helpVisible = true;
@@ -142,11 +143,16 @@
       {[...nativeSqlValues].join(', ')}
     </div>
   </div>
+  <div class="my-3 flex items-center">
+    <div class="whitespace-nowrap me-3">Table name</div>
+    <input type="text" class="w-full py-1 px-2" bind:value={tableName}>
+  </div>
+
   <div class="my-5 text-center">
     <button
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       on:click={() => {
-        insertSql = convertTsvToInsertSQL(sourceTsv);
+        insertSql = convertTsvToInsertSQL(sourceTsv, tableName);
       }}
     >
       <i class="bi bi-arrow-down"></i>
