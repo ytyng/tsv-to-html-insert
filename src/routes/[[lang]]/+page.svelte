@@ -2,6 +2,8 @@
   import {onMount} from 'svelte';
   import {convertTsvToInsertSQL, testTsvData, nativeSqlValues} from '$lib/sql';
 
+  export let data
+
   $: sourceTsv = testTsvData;
   $: insertSql = '';
   $: copied = false;
@@ -25,6 +27,10 @@
     window.localStorage.setItem('helpVisible', '1');
   }
 
+  function _(v1: string, v2: string) {
+    return data.lang === 'ja' ? v1 : v2;
+  }
+
   onMount(() => {
     if (window.localStorage.getItem('helpVisible') === '0') {
       helpVisible = false;
@@ -35,6 +41,28 @@
 <div class="bg-slate-800 text-white flex items-center">
   <h1 class="text-2xl p-2 font-bold grow">Convert TSV to Insert SQL</h1>
   <div class="p-2">
+
+    <span class="mx-1">
+    <i class="bi bi-translate text-xl"></i>
+      {#if data.lang === 'ja'}
+      <a href="../" class="mx-1" rel="external">
+        EN
+      </a>
+        <span class="text-gray-500">|</span>
+      <span class="text-gray-500">
+        JA
+      </span>
+    {:else}
+      <span class="text-gray-500">
+        EN
+      </span>
+        <span class="text-gray-500">|</span>
+      <a href="ja/" class="mx-1" rel="external">
+        JA
+      </a>
+    {/if}
+    </span>
+
     <a href="https://github.com/ytyng/tsv-to-insert-sql" target="_blank" class="mx-1">
       <i class="bi bi-github text-xl"></i>
     </a>
@@ -51,28 +79,32 @@
   <div class="bg-gray-50 py-1">
     <div class="max-w-screen-xl px-3 mx-auto">
       <p class="my-3">
-        これは、TSV 形式のテキストを Insert の SQL 文に変換するツールです。<br>
-        Google スプレッドシートやエクセルで作ったデータを DB に登録する際に便利です。
+        {_('これは、TSV 形式のテキストを Insert の SQL 文に変換するツールです。',
+          'This is a tool to convert TSV text to Insert SQL.')}
+        <br>
+        {_('Google スプレッドシートやエクセルで作ったデータを DB に登録する際に便利です。',
+          'It is useful when registering data created in Google Spreadsheets or Excel in a DB.')}
       </p>
 
       <img src="/images/tutorial-01.png" alt="tutorial-01" class="my-3 max-w-full">
 
       <p class="my-3">
-        Google スプレッドシートやエクセルで作ったデータを範囲選択し、コピーすると TSV 形式でコピーされるので、
-        内容を下部のテキストエリアにペーストし、 Convert to Insert SQL ボタンを押すと SQL 文が生成されます。
+        {_('Google スプレッドシートやエクセルで作ったデータを範囲選択し、コピーすると TSV 形式でコピーされるので、内容を下部のテキストエリアにペーストし、 Convert to Insert SQL ボタンを押すと SQL 文が生成されます。',
+          'Select and copy the data created in Google Spreadsheets or Excel, and paste it into the text area at the bottom. When you press the Convert to Insert SQL button, an SQL statement is generated.')}
       </p>
       <p class="my-3">
-        処理はブラウザで行われるため、データは送信しません。
+        {_('処理はブラウザで行われるため、データは送信しません。', 'The processing is done in the browser, so the data is not sent.')}
       </p>
       <p class="my-3">
-        このツールを用いて発生した損害について、作者は一切の責任を負いません。同意できる方のみご利用ください。
+        {_('このツールを用いて発生した損害について、作者は一切の責任を負いません。同意できる方のみご利用ください。',
+          'The author is not responsible for any damage caused by using this tool. Please use it only if you agree.')}
       </p>
       <div class="text-center my-3">
         <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           on:click={hideHelp}
         >
-          <i class="bi bi-check-lg"></i> 説明を消す
+          <i class="bi bi-check-lg"></i> {_('説明を消す', 'Dismiss help.')}
         </button>
       </div>
     </div>
@@ -97,12 +129,15 @@
     </div>
     <textarea class="bg-white w-full h-96 p-3 font-mono" bind:value={sourceTsv}></textarea>
     <div class="text-sm text-gray-600 mt-1">
-      エクセルや Google スプレッドシートで作った内容をコピペしてください。<br>
-      1行目はカラム名を入れてください。<br>
-      エクセルや Google スプレッドシートから表データをコピペすると、区切り文字はタブ文字になるので TSV 形式でペーストできます。
+      {_('エクセルや Google スプレッドシートで作った内容をコピペしてください。',
+        'Please copy and paste the contents created in Excel or Google Sheets.')}<br>
+      {_('1行目はカラム名を入れてください。', 'Enter the column names in the first row.')}<br>
+      {_('エクセルや Google スプレッドシートから表データをコピペすると、区切り文字はタブ文字になるので TSV 形式でペーストできます。',
+        'When you copy and paste table data from Excel or Google Sheets, the delimiter will be a tab character, so you can paste it in TSV format.')}
     </div>
     <div class="text-sm text-gray-600 mt-1">
-      数字とこれらのワード以外はシングルクオートされます: {[...nativeSqlValues].join(', ')}
+      {_('数字とこれらのワード以外はシングルクオートされます', 'Numbers and these words will not be single-quoted')}:
+      {[...nativeSqlValues].join(', ')}
     </div>
   </div>
   <div class="my-5 text-center">
@@ -125,10 +160,10 @@
       >
         {#if copied}
           <i class="bi bi-check"></i>
-          コピーしました
+          {_('コピーしました', 'Copied')}
         {:else}
           <i class="bi bi-clipboard"></i>
-          コピーする
+          {_('コピーする', 'Copy')}
         {/if}
       </button>
     </div>
