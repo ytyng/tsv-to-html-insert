@@ -39,7 +39,9 @@
 </script>
 
 <div class="bg-slate-800 text-white flex items-center">
-  <h1 class="text-2xl p-2 font-bold grow">Convert TSV to Insert SQL</h1>
+  <h1 class="text-2xl p-2 font-bold grow">
+    <i class="bi bi-database-fill-up"></i> Convert TSV to Insert SQL
+  </h1>
   <div class="p-2">
 
     <span class="mx-1">
