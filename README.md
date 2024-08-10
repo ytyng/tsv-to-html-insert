@@ -1,38 +1,25 @@
-# create-svelte
+# tsv-to-insert-sql
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Converts a TSV file to a SQL insert statement.
 
-## Creating a project
+https://tsv-to-insert-sql.ytyng.com/
 
-If you're seeing this, you've probably already done this step. Congrats!
+This is a tool to convert TSV text to Insert SQL.
+It is useful when registering data created in Google Spreadsheets or Excel in a DB.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+![tutorial-01.png](static/images/tutorial-01.png)
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+Select and copy the data created in Google Spreadsheets or Excel, and paste it into the text area at the bottom. When you press the Convert to Insert SQL button, an SQL statement is generated.
 
-## Developing
+The processing is done in the browser, so the data is not sent.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+The author is not responsible for any damage caused by using this tool. Please use it only if you agree.
 
-```bash
-npm run dev
+これは、TSV 形式のテキストを Insert の SQL 文に変換するツールです。
+Google スプレッドシートやエクセルで作ったデータを DB に登録する際に便利です。
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+Google スプレッドシートやエクセルで作ったデータを範囲選択し、コピーすると TSV 形式でコピーされるので、内容を下部のテキストエリアにペーストし、 Convert to Insert SQL ボタンを押すと SQL 文が生成されます。
 
-## Building
+処理はブラウザで行われるため、データは送信しません。
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+このツールを用いて発生した損害について、作者は一切の責任を負いません。同意できる方のみご利用ください。
