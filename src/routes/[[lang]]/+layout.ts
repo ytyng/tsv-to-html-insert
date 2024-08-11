@@ -5,5 +5,5 @@ export const load: LayoutLoad = async ({params}) => {
     lang: params.lang
   }
 }
-export const prerender = true;
-export const trailingSlash = 'always';
+export const prerender = true
+export const trailingSlash = 'always'

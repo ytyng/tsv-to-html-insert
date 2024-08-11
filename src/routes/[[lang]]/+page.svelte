@@ -1,42 +1,43 @@
 <script lang="ts">
-  import {onMount} from 'svelte';
-  import {convertTsvToInsertSQL, testTsvData, nativeSqlValues} from '$lib/sql';
+  import {onMount} from 'svelte'
+  import {convertTsvToInsertSQL, testTsvData, nativeSqlValues} from '$lib/sql'
 
   export let data
 
-  $: sourceTsv = testTsvData;
-  $: tableName = 'your_table_name';
-  $: insertSql = '';
-  $: copied = false;
-  $: helpVisible = true;
+  $: sourceTsv = testTsvData
+  $: tableName = 'your_table_name'
+  $: insertSql = ''
+  $: copied = false
+    $: helpVisible = true
+
 
   function copySqlToClipboard() {
-    navigator.clipboard.writeText(insertSql);
-    copied = true;
+    navigator.clipboard.writeText(insertSql)
+    copied = true
     setTimeout(() => {
-      copied = false;
-    }, 5000);
+      copied = false
+    }, 5000)
   }
 
   function hideHelp() {
-    helpVisible = false;
-    window.localStorage.setItem('helpVisible', '0');
+    helpVisible = false
+    window.localStorage.setItem('helpVisible', '0')
   }
 
   function showHelp() {
-    helpVisible = true;
-    window.localStorage.setItem('helpVisible', '1');
+    helpVisible = true
+    window.localStorage.setItem('helpVisible', '1')
   }
 
   function _(v1: string, v2: string) {
-    return data.lang === 'ja' ? v1 : v2;
+    return data.lang === 'ja' ? v1 : v2
   }
 
   onMount(() => {
     if (window.localStorage.getItem('helpVisible') === '0') {
-      helpVisible = false;
+      helpVisible = false
     }
-  });
+  })
 </script>
 
 <div class="bg-slate-800 text-white flex items-center">
@@ -123,7 +124,7 @@
         <button
           class="text-gray-700 text-sm mb-1 hover:text-red-900"
           on:click={() => {
-            sourceTsv = '';
+            sourceTsv = ''
           }}
         >
           <i class="bi bi-x-lg"></i> Clear
@@ -152,7 +153,7 @@
     <button
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       on:click={() => {
-        insertSql = convertTsvToInsertSQL(sourceTsv, tableName);
+        insertSql = convertTsvToInsertSQL(sourceTsv, tableName)
       }}
     >
       <i class="bi bi-arrow-down"></i>
