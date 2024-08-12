@@ -4,12 +4,11 @@
 
   export let data
 
-  $: sourceTsv = testTsvData
-  $: tableName = 'your_table_name'
-  $: insertSql = ''
-  $: copied = false
-    $: helpVisible = true
-
+  let sourceTsv = testTsvData
+  let tableName = 'your_table_name'
+  let insertSql = ''
+  let copied = false
+  let helpVisible = true
 
   function copySqlToClipboard() {
     navigator.clipboard.writeText(insertSql)
