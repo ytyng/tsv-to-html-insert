@@ -1,3 +1,4 @@
+import Papa from 'papaparse'
 
 export const testTsvData = `
 sku\tproduct_name\tprice\tcategory_code\tpublished_at\texpires_at\tdiscountable\tcreated_at\tupdated_at
@@ -21,13 +22,16 @@ function sqlValue(value: string) {
 
 
 export function convertTsvToInsertSQL(tsv: string, tableName: string) {
-  const lines = tsv.trim().split(/\r?\n/)
-  const [header, ...rows] = lines
-  const columns = header.split('\t')
+  const parsed = Papa.parse(tsv, {
+    delimiter: '\t',
+    header: false,
+    skipEmptyLines: true,
+  })
+  console.log(parsed)
+  const [columns, ...rows] = parsed.data
 
   const valuesLines = rows.map(row => {
-    const values = row.split('\t')
-    return `(${values.map(sqlValue).join(', ')})`
+    return `(${row.map(sqlValue).join(', ')})`
   })
 
   return `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES\n${valuesLines.join(',\n')};`
